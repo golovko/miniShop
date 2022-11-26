@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.View.PersonDetailsView"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App"
+             x:DataType="viewModels:PersonDetailsViewModel"
+             Title="{Binding Person.Name}">
+    <ScrollView>
+        <VerticalStackLayout>
+            <StackLayout Padding="0">
+                <Frame
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="0,10,0,0"
+                    HeightRequest="160"
+                    WidthRequest="160"
+                    HorizontalOptions="Center" 
+                    Padding="0"
+                    IsClippedToBounds="True"
+                    CornerRadius="80">
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="160"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="160">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding Person.Image}"
+                                            CachingEnabled="False"/>
+                        </Image.Source>
+                    </Image>
+                </Frame>
+            </StackLayout>
+            <VerticalStackLayout Padding="10" Spacing="10">
+                <Label Text="{Binding Person.Id, StringFormat='Id: {0}'}"/>
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.IsAdmin,StringFormat='Is Admin: {0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Name,StringFormat='Name: {0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Address, StringFormat='City: {0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Email, StringFormat='Email: {0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Ocupation, StringFormat='Ocupation: {0}'}" />
+            </VerticalStackLayout>
+
+            <Button
+                Text="Show on map"
+                Padding="20"
+                Margin="20"
+                VerticalOptions="End"
+                Command="{Binding OpenMapCommand}"
+                IsEnabled="{Binding IsNotBusy}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

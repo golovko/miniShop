@@ -1,0 +1,155 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>App</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>miniShop</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.znachno.minishop</ApplicationId>
+		<ApplicationIdGuid>8f4c89cb-1b02-44cd-870a-0e78a3d9ca44</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Configurations>Release;Debug</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	  <DebugSymbols>false</DebugSymbols>
+	  <WarningLevel>4</WarningLevel>
+<AssemblyName>miniShop</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningKeyStore>/Users/golovko/Projects/KeyStore/ZnachnoKeyStore.keystore</AndroidSigningKeyStore>
+	  <AndroidSigningStorePass>Znachno_2020</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>Znachno</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>Znachno_2020</AndroidSigningKeyPass>
+	  <AndroidApkSignerAdditionalArguments>Znachno_2020</AndroidApkSignerAdditionalArguments>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg">
+		  <ForegroundFile>Resources\AppIcon\appiconfg.svg</ForegroundFile>
+		</MauiIcon>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Model\" />
+	  <None Remove="Newtonsoft.Json" />
+	  <None Remove="View\" />
+	  <None Remove="ViewModel\" />
+	  <None Remove="Services\" />
+	  <None Remove="CommunityToolkit.Mvvm" />
+	  <None Remove="Resources\AppIcon\Logo.svg" />
+	  <None Remove="Resources\Images\Logo.png" />
+	  <None Remove="Resources\Images\user.png" />
+	  <None Remove="Resources\AppIcon\appicon.svg" />
+	  <None Remove="Resources\Images\boxlisticon.png" />
+	  <None Remove="Resources\Images\viewlisticon.png" />
+	  <None Remove="Resources\Images\squareplusicon.png" />
+	  <None Remove="Resources\Images\usericon.png" />
+	  <None Remove="Resources\Images\settingsicon.png" />
+	  <None Remove="Resources\Images\barcodeicon.png" />
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\home_icon.png" />
+	  <None Remove="Resources\Images\placeholder.png" />
+	  <None Remove="Resources\Images\cart-plus.png" />
+	  <None Remove="Resources\Images\cart_plus.png" />
+	  <None Remove="Resources\Images\order.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Model\" />
+	  <Folder Include="View\" />
+	  <Folder Include="ViewModel\" />
+	  <Folder Include="Services\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="View\NewPage1.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\PersonDetailsView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\AddPersonPage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\ProductsView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\OrdersView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\SettingsView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\LoginView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\ProductDetailsView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\OrderDetailsView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="View\Cart.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiSplashScreen Include="Resources\Splash\splash.svg">
+	    <BaseSize>100,100</BaseSize>
+	  </MauiSplashScreen>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\logo.png" />
+	  <MauiImage Include="Resources\Images\barcodeicon.png" />
+	  <MauiImage Include="Resources\Images\settingsicon.png" />
+	  <MauiImage Include="Resources\Images\user.png" />
+	  <MauiImage Include="Resources\Images\viewlisticon.png" />
+	  <MauiImage Include="Resources\Images\usericon.png" />
+	  <MauiImage Include="Resources\Images\squareplusicon.png" />
+	  <MauiImage Include="Resources\Images\boxlisticon.png" />
+	  <MauiImage Include="Resources\Images\home_icon.png" />
+	  <MauiImage Include="Resources\Images\placeholder.png" />
+	  <MauiImage Include="Resources\Images\cart_plus.png" />
+	  <MauiImage Include="Resources\Images\order.png" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.View.AddPersonPage"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App.Model"
+             x:DataType="viewModels:AddPersonViewModel"
+             Title="{Binding Title}">
+   
+    <VerticalStackLayout Padding="35" Spacing="10">
+        <Label 
+            Text="Please fill following fields"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Entry Placeholder="Name"
+               Text="{Binding AddPerson.Name }"
+               x:Name="NameField"/>
+
+        <Entry Placeholder="Ocupation" Text="{Binding AddPerson.Ocupation }"/>
+        <Label 
+            Text="Additional information"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Entry Placeholder="Address" Text="{Binding AddPerson.Address}"/>
+        <Entry Placeholder="Email" Text="{Binding AddPerson.Email}"/>
+        <Entry Placeholder="Website" Text="{Binding AddPerson.Website}"/>
+        <Entry Placeholder="Image URL" Text=""/>
+        <StackLayout Padding="0,30,0,0">
+            <Button Text="Save" Command="{Binding Save_Button_ClickedCommand}" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

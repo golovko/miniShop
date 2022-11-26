@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:App"
+             x:Class="App.View.OrdersView"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App.Model"
+             x:DataType="viewModels:OrdersViewModel"
+             Title="{Binding Title}">
+
+    <StackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+        <RefreshView Command="{Binding GetOrdersCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+              EmptyView="No Data"
+                HeightRequest="700"
+                ItemsSource="{Binding Orders}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Order">
+                        <Frame CornerRadius="12" Padding="0" Margin="6" >
+                            <Frame.GestureRecognizers>
+
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+
+                            </Frame.GestureRecognizers>
+                            <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">
+                                <StackLayout Padding="12">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="40"
+                                        Source="order.png">
+                                        
+                                        <!--<Image.Source>
+                                            <UriImageSource Uri="squareplusicon.png"
+                                            CachingEnabled="True"
+                                            CacheValidity="3600"/>
+                                        </Image.Source>-->
+                                    </Image>
+
+
+                                </StackLayout>
+                                <StackLayout Padding="12, 6, 0, 6" >
+                                    <Label Text="{Binding Id, StringFormat='ID: {0}'}" Style="{StaticResource Key=CustomLableStyle}"/>
+                                    <Label Text="{Binding OrderStatus, StringFormat='Order Status: {0}' }" />
+                                    <Label Text="{Binding Payed, StringFormat='Payment status: {0}' }" />
+                                    <Label Text="{Binding OrderSum, StringFormat='Order sum: £{0}'}" />
+
+                                </StackLayout>
+
+                            </HorizontalStackLayout>
+
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Grid  ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+
+
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                Margin="20"
+                HeightRequest="60"
+                WidthRequest="60"
+                CornerRadius="30"
+                FontSize="30"
+                Text="+"
+                >
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                        Offset="5,5"
+                        Radius="10"
+                        Opacity="0.5"/>
+                </Button.Shadow>
+            </Button>
+        </Grid>
+
+    </StackLayout>
+</ContentPage>

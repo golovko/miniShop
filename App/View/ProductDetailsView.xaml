@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App.View.ProductDetailsView"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App"
+             x:DataType="viewModels:ProductDetailsViewModel"
+             Title="{Binding Product.Name}">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <StackLayout
+                Padding="12"
+                BackgroundColor="{StaticResource White}"
+                WidthRequest="1000">
+                <Image
+                        Aspect="AspectFill"
+                        HeightRequest="260"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="260">
+                    <Image.Source>
+                        <UriImageSource Uri="{Binding Product.MainImage}"
+                                        CachingEnabled="False"/>
+                    </Image.Source>
+                </Image>
+            </StackLayout>
+            <VerticalStackLayout Padding="10" Spacing="10">
+                <Label Text="{Binding Product.Id, StringFormat='Id: {0}'}"/>
+                <Label Style="{StaticResource Key=H1LableStyle}" Text="{Binding Product.Name,StringFormat='{0}'}" />
+                <Label Text="{Binding Product.ShortDescription, StringFormat='Short Description: {0}'}" />
+                <Label Style="{StaticResource Key=H1LableStyle}" Text="{Binding Product.Price, StringFormat='Price: £{0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Product.Category , StringFormat='Category: {0}'}" />
+                <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Product.Manufacturer , StringFormat='Manufacturer: {0}'}" />
+                <Label Text="{Binding Product.Description, StringFormat='Description: {0}'}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Padding="12">
+                <Button Text="Buy" BindingContext="{Binding Product}"
+                        Clicked="AddToCart_Button_Clicked"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

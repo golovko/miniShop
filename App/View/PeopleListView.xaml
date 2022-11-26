@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:App"
+             x:Class="App.View.PeopleListView"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App.Model"
+             x:DataType="viewModels:PeopleListViewModel"
+             Title="{Binding Title}">
+
+    <StackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+        <RefreshView Command="{Binding GetPeopleCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+              EmptyView="No Data"
+                HeightRequest="700"
+                ItemsSource="{Binding People}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Person">
+                        <Frame CornerRadius="12" Padding="0" Margin="6" >
+                            <Frame.GestureRecognizers>
+
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+
+                            </Frame.GestureRecognizers>
+                            <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">
+                                <StackLayout>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="80"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="80">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding Image}"
+                                            CachingEnabled="True"
+                                            CacheValidity="3600"/>
+                                        </Image.Source>
+                                    </Image>
+
+
+                                </StackLayout>
+                                <StackLayout Padding="12, 6, 0, 6" >
+                                    <Label Text="{Binding Name}" Style="{StaticResource Key=CustomLableStyle}"/>
+                                    <Label Text="{Binding Address }" />
+                                    <Label Text="{Binding Email}" />
+
+                                </StackLayout>
+
+                            </HorizontalStackLayout>
+
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Grid  ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+
+            
+            <!--<Button
+                Text="Add Person"
+                Padding="20"
+                Margin="20"
+                VerticalOptions="End"
+                Grid.Row="1"
+                Grid.Column="1"
+                Clicked="AddPerson_Button_Clicked" />-->
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                Margin="20"
+                HeightRequest="60"
+                WidthRequest="60"
+                CornerRadius="30"
+                FontSize="30"
+                Text="+"
+                Clicked="AddPerson_Button_Clicked">
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                        Offset="5,5"
+                        Radius="10"
+                        Opacity="0.5"/>
+            </Button.Shadow>
+        </Button>
+        </Grid>
+
+    </StackLayout>
+</ContentPage>

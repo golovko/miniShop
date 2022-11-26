@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:App"
+             x:Class="App.View.CartView"
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App.Model"
+             x:DataType="viewModels:CartViewModel"
+             Title="{Binding Title}">
+    <StackLayout>
+        <VerticalStackLayout
+            IsVisible="{Binding CartWithOrder}"
+            Padding="12"
+            Spacing="6">
+
+            <Label Text="Detailed Order Info" TextDecorations="Underline"/>
+            <Label Text="{Binding CartOrder.Id, StringFormat='ID: {0}'}" Style="{StaticResource Key=CustomLableStyle}"/>
+            <Label Text="{Binding CartOrder.OrderStatus, StringFormat='Order Status: {0}' }" />
+            <Label Text="{Binding CartOrder.Payed, StringFormat='Payment status: {0}' }" />
+            <Label Text="{Binding CartOrder.OrderSum, StringFormat='Order sum: £{0}'}" />
+
+
+            <Button BindingContext="{Binding CartOrder}" Text="Place order" IsEnabled="{Binding CartWithOrder}"
+                    Clicked="Save_Button_Clicked"/>
+        </VerticalStackLayout>
+
+    </StackLayout>
+
+
+</ContentPage>
