@@ -36,13 +36,7 @@ namespace Api.Migrations
                     b.Property<string>("Pass")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonId")
-                        .IsUnique();
 
                     b.ToTable("Authorisation");
                 });
@@ -91,6 +85,9 @@ namespace Api.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("AuthId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
@@ -116,6 +113,8 @@ namespace Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthId");
 
                     b.ToTable("People");
                 });
@@ -181,17 +180,6 @@ namespace Api.Migrations
                     b.ToTable("OrderProduct");
                 });
 
-            modelBuilder.Entity("Api.Models.Auth", b =>
-                {
-                    b.HasOne("Api.Models.Person", "Person")
-                        .WithOne("Auth")
-                        .HasForeignKey("Api.Models.Auth", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("Api.Models.Order", b =>
                 {
                     b.HasOne("Api.Models.Person", "Buyer")
@@ -199,6 +187,15 @@ namespace Api.Migrations
                         .HasForeignKey("BuyerId");
 
                     b.Navigation("Buyer");
+                });
+
+            modelBuilder.Entity("Api.Models.Person", b =>
+                {
+                    b.HasOne("Api.Models.Auth", "Auth")
+                        .WithMany()
+                        .HasForeignKey("AuthId");
+
+                    b.Navigation("Auth");
                 });
 
             modelBuilder.Entity("OrderProduct", b =>
@@ -218,8 +215,6 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.Person", b =>
                 {
-                    b.Navigation("Auth");
-
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

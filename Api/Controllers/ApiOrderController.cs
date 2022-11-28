@@ -85,102 +85,65 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<OrderDto> AddOrder([FromBody] OrderDto p)
+        public ActionResult<OrderDto> AddOrder([FromBody] OrderDto orderDto)
         {
-            if (p == null)
-                return BadRequest(p);
+            if (orderDto == null)
+                return BadRequest(orderDto);
 
-            if (p.Id > 0)
+            if (orderDto.Id > 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
 
             Order model = new Order()
             {
                 //Id = p.Id,
-                OrderSum = p.OrderSum,
-                OrderStatus = p.OrderStatus,
-                Payed = p.Payed,
+                //OrderSum = orderDto.OrderSum,
+                OrderStatus = orderDto.OrderStatus,
+                Payed = orderDto.Payed,
                 CreatedDateTime = DateTime.Now,
 
             };
-            //нахожу покупателя по id
-            model.Buyer = _dbConnect.People.AsNoTracking().FirstOrDefault(u => u.Id == p.BuyerId);
-
-            //нахожу товары из заказа по id
-            List<Product> temp = new List<Product>();
-            foreach (var item in p.ProductsId)
-            {
-                temp.Add(_dbConnect.Products.AsNoTracking().FirstOrDefault(p => p.Id == item));  
-            }
-            model.Products = (ICollection<Product>)temp;
-
             _dbConnect.Orders.Add(model);
+
+            //нахожу покупателя по id
+            var buyer = _dbConnect.People.AsNoTracking().Include(o => o.Orders).FirstOrDefault(u => u.Id == orderDto.BuyerId);
+            model.Buyer = buyer;
+
             _dbConnect.SaveChanges();
 
-            var res = _dbConnect.Orders.OrderBy(p => p.Id).Last();
+            //нахожу товары из заказа по id
+            List<Product> productsInOrder = new List<Product>();
+            foreach (var item in orderDto.ProductsId)
+            {
+                Product product = _dbConnect.Products.AsNoTracking().FirstOrDefault(p => p.Id == item);
+                model.OrderSum += product.Price;
+                productsInOrder.Add(product);
+
+            }
+            model.Products = productsInOrder;
+            _dbConnect.SaveChanges();
+
+
+            //geting result from the db to check that the data was saved properly
+            var res = _dbConnect.Orders.AsNoTracking().Include(p => p.Buyer).Include(g => g.Products).OrderBy(p => p.Id).Last();
             OrderDto modelDto = new OrderDto()
             {
-                Id = p.Id,
-                OrderSum = p.OrderSum,
-                OrderStatus = p.OrderStatus,
-                Payed = p.Payed,
-                CreatedDateTime = p.CreatedDateTime
-
+                Id = res.Id,
+                OrderSum = res.OrderSum,
+                OrderStatus = res.OrderStatus,
+                Payed = res.Payed,
+                CreatedDateTime = res.CreatedDateTime,
+                BuyerId = res.Buyer.Id
             };
-            return CreatedAtRoute("GetOrderById", new { id = model.Id }, modelDto);
+            var productsId = new List<int>();
+            foreach (var item in res.Products)
+            {
+                productsId.Add(item.Id);
+            }
+            modelDto.ProductsId = productsId;
+            return CreatedAtRoute("GetOrderById", new { id = res.Id }, modelDto);
 
         }
-
-        /*
-
-      [HttpDelete("{id:int}", Name = "DeleteProduct")]
-      [ProducesResponseType(StatusCodes.Status204NoContent)]
-      [ProducesResponseType(StatusCodes.Status404NotFound)]
-      [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      public IActionResult DeleteProduct(int id)
-      {
-          var list = _dbConnect.Products;
-          var res = list.FirstOrDefault(p => p.Id == id);
-
-          if (id <= 0)
-              return BadRequest("Id must be greater than 0!");
-          if (res == null)
-              return NotFound($"There no person with requested ID {id}");
-
-          _dbConnect.Products.Remove(res);
-          _dbConnect.SaveChanges();
-          return NoContent();
-      }
-
-      [HttpPut("{id:int}", Name = "UpdateProduct")]
-      [ProducesResponseType(StatusCodes.Status204NoContent)]
-      [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      public IActionResult UpdateProduct(int id, [FromBody] Product p)
-      {
-
-          if (id <= 0 || id != p.Id || p == null)
-              return BadRequest();
-
-          Product model = new Product()
-          {
-              Category = p.Category,
-              Name = p.Name,
-              Manufacturer = p.Manufacturer,
-              ShortDescription = p.ShortDescription,
-              Description = p.Description,
-              Price = p.Price,
-              Currency = p.Currency,
-              ItemsLeft = p.ItemsLeft,
-              MainImage = p.MainImage,
-              CreatedDateTime = DateTime.Now
-          };
-
-          _dbConnect.Update(model);
-          _dbConnect.SaveChanges();
-          return NoContent();
-
-      }
-      */
     }
 }
 

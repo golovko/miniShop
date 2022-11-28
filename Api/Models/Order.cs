@@ -16,7 +16,6 @@ namespace Api.Models
         public ICollection<Product>? Products { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public DateTime UpdatedDateTime { get; set; }
-        //public List<OrderProduct> OrderProducts { get; set; }
 
     }
 

@@ -21,7 +21,6 @@ namespace Api.Models
         public DateTime CreatedDateTime { get; set; }
         public DateTime UpdatedDateTime { get; set; }
         public ICollection<Order>? Orders { get; set; }
-        //public List<OrderProduct> OrderProducts { get; set; }
     }
 }
 
