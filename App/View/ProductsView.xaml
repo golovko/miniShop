@@ -24,7 +24,7 @@
 
                             </Frame.GestureRecognizers>
                             <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">
-                                <StackLayout Margin="4">
+                                <StackLayout Padding="1">
                                     <Image
                                         Aspect="AspectFill"
                                         HeightRequest="80"
@@ -44,7 +44,6 @@
                                              Margin="0,0,6,0">
                                     <Label Text="{Binding Name}" Style="{StaticResource Key=CustomLableStyle}"/>
                                     <Label Text="{Binding Manufacturer , StringFormat='{0}' }" />
-                                    <Label Text="{Binding Category}" FontSize="Small"/>
                                     <Label Text="{Binding Price, StringFormat='£{0}' }" />
                                 </StackLayout>
 

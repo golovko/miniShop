@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.View.LoginView"
-             Title="LoginView">
+             xmlns:viewModels="clr-namespace:App.ViewModel"
+             xmlns:model="clr-namespace:App.Model"
+             x:DataType="viewModels:LoginViewModel"
+             Title="{Binding Title}">
+
     <VerticalStackLayout Padding="20" Spacing="15">
         <StackLayout Padding="0,30,0,20">
             <Label 
@@ -11,12 +15,15 @@
             HorizontalOptions="Center" />
         </StackLayout>
         <StackLayout Spacing="20">
-            <Entry Placeholder="Login" />
-            <Entry Placeholder="Password" IsPassword="True" />
+            <Entry x:Name="LoginInput" Placeholder="Login"  />
+            <Entry x:Name="LoginPassword" Placeholder="Password" IsPassword="True" />
+            <Label x:Name="PasswordError" Text="" TextColor="Red"/>
             <Button Text="Login"
                     TextTransform="Uppercase"
                     HorizontalOptions="End"
-                    Clicked="LoginButton_Clicked"/>
+                    Clicked="Button_Clicked_AuthCheck"
+                    
+                    />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

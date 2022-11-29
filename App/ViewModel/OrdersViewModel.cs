@@ -7,8 +7,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace App.ViewModel
 {
-	public partial class OrdersViewModel : BaseViewModel
-	{
+    public partial class OrdersViewModel : BaseViewModel
+    {
         public ObservableCollection<Order> Orders { get; } = new();
         OrdersService ordersService;
         public OrdersViewModel(OrdersService ordersService)
@@ -16,6 +16,7 @@ namespace App.ViewModel
             Title = "Orders";
             this.ordersService = ordersService;
             GetOrdersAsync();
+
 
         }
 

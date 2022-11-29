@@ -10,13 +10,13 @@ using System.Net.Http;
 
 namespace App.Services
 {
-	public class PeopleService
-	{
+    public class PeopleService
+    {
         private HttpClient httpClient;
-		private List<Person> personList = new List<Person>();
-
+        public List<Person> personList = new List<Person>();
+        public Person PersonById;
         public PeopleService()
-		{
+        {
             this.httpClient = new HttpClient();
         }
 
@@ -35,6 +35,34 @@ namespace App.Services
             httpClient.Dispose();
             return personList;
         }
+
+        public async Task<Person> GetPersonById(int id)
+        {
+
+
+            var result = await httpClient.GetAsync("https://sgolovko.bsite.net/Api/People/" + id);
+            if (result.IsSuccessStatusCode)
+            {
+                var personDto = await result.Content.ReadFromJsonAsync<PersonDto>();
+                PersonById = new()
+                {
+                    Id = personDto.id,
+                    Address = personDto.address,
+                    Name = personDto.name,
+                    Email = personDto.email,
+                    Image = personDto.image,
+                    Ocupation = personDto.ocupation,
+                    Website = personDto.website
+                };
+
+                return PersonById;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
 
