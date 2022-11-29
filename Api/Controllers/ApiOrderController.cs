@@ -27,18 +27,15 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<OrderDto>> GetOrders()
         {
-            var orders = from p in _dbConnect.Orders.Include(b => b.Buyer).Include(pr => pr.Products)
+            var orders = from p in _dbConnect.Orders
                          select new OrderDto()
                          {
                              Id = p.Id,
-                             BuyerId = p.Buyer.Id,
                              CreatedDateTime = p.CreatedDateTime,
                              OrderStatus = p.OrderStatus,
                              Payed = p.Payed,
                              OrderSum = p.OrderSum
-
                          };
-
 
             return Ok(orders);
         }

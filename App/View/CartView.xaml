@@ -8,7 +8,9 @@
              x:DataType="viewModels:CartViewModel"
              Title="{Binding Title}">
     <StackLayout>
+
         <VerticalStackLayout
+            
             IsVisible="{Binding CartWithOrder}"
             Padding="12"
             Spacing="6">
@@ -18,11 +20,11 @@
             <Label Text="{Binding CartOrder.OrderStatus, StringFormat='Order Status: {0}' }" />
             <Label Text="{Binding CartOrder.Payed, StringFormat='Payment status: {0}' }" />
             <Label Text="{Binding CartOrder.OrderSum, StringFormat='Order sum: £{0}'}" />
-
-
             <Button BindingContext="{Binding CartOrder}" Text="Place order" IsEnabled="{Binding CartWithOrder}"
                     Clicked="Save_Button_Clicked"/>
         </VerticalStackLayout>
+
+
 
     </StackLayout>
 
