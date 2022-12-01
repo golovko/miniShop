@@ -25,19 +25,22 @@ namespace Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<OrderDto>> GetOrders()
+        public ActionResult<IEnumerable<Order>> GetOrders()
         {
-            var orders = from p in _dbConnect.Orders
-                         select new OrderDto()
+          
+            var ordersFull = from p in _dbConnect.Orders
+                             select new Order()
                          {
                              Id = p.Id,
                              CreatedDateTime = p.CreatedDateTime,
                              OrderStatus = p.OrderStatus,
                              Payed = p.Payed,
-                             OrderSum = p.OrderSum
+                             OrderSum = p.OrderSum,
+                             Buyer = p.Buyer,
+                              Products = p.Products,
                          };
 
-            return Ok(orders);
+            return Ok(ordersFull);
         }
 
         [HttpGet("{id:int}", Name = "GetOrderById")]

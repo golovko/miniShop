@@ -31,29 +31,25 @@ namespace App.Services
                 var ordersList = await result.Content.ReadFromJsonAsync<List<Order>>();
                 return ordersList;
             }
-            httpClient.Dispose();
             return ordersList;
         }
 
-        public async Task<Order> GetOrderById(int id)
+        public async Task<List<Order>> GetOrderById(int id)
         {
-            if (Order.OrderStatus == 0)
-                return Order;
-
+            
             var result = await httpClient.GetAsync("https://sgolovko.bsite.net/Api/Orders/" + id);
             if (result.IsSuccessStatusCode)
             {
-                var order = await result.Content.ReadFromJsonAsync<Order>();
+                var order = await result.Content.ReadFromJsonAsync<List<Order>>();
                 return order;
             }
 
-            httpClient.Dispose();
-            return Order;
+            return null;
         }
 
         public async Task<Order> OrderInCart()
         {
-            return Order;
+            return null;
         }
 
 

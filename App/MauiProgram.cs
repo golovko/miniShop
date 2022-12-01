@@ -25,6 +25,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<PeopleService>();
         builder.Services.AddSingleton<OrdersService>();
         builder.Services.AddSingleton<AuthService>();
+        builder.Services.AddSingleton<Dto>();
 
         builder.Services.AddTransient<MainPage>();
 

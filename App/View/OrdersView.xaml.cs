@@ -16,7 +16,7 @@ public partial class OrdersView : ContentPage
     public async void TapGestureRecognizer_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
         var order = ((VisualElement)sender).BindingContext as Order;
-
+        Dto.Order = order;
         await Shell.Current.GoToAsync(nameof(OrderDetailsView), true, new Dictionary<string, object> { { "Order", order } });
 
     }

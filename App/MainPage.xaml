@@ -14,38 +14,23 @@
                 HeightRequest="160"
                 HorizontalOptions="Center" />
 
-            <!--<Label
-                Text="Welcome"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />-->
-
             <Label
                 Text="ITEA C# course demo app "
                 SemanticProperties.HeadingLevel="Level2"
-                FontSize="18"
+                FontSize="22"
                 HorizontalOptions="Center" />
-
-            
-            <!--<Button
-                x:Name="OpenList"
-                Text="Continue"
-                SemanticProperties.Hint="Navigate to List Page"
-                Clicked="OpenList_Clicked"
-                HorizontalOptions="Center"
-                />-->
 
             <StackLayout
                 Padding="0,100,0,0">
                 <Label
                 Text="v.1.0.0"
                 SemanticProperties.HeadingLevel="Level2"
-                FontSize="12"
+                FontSize="14"
                 HorizontalOptions="Center" />
                 <Label
                 Text="developed by Sergii Golovko"
                 SemanticProperties.HeadingLevel="Level2"
-                FontSize="10"
+                FontSize="16"
                 HorizontalOptions="Center" />
 
             </StackLayout>

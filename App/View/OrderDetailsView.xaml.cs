@@ -1,4 +1,5 @@
 ﻿using App.ViewModel;
+using App.Services;
 using App.Model;
 
 namespace App.View;
@@ -9,6 +10,6 @@ public partial class OrderDetailsView : ContentPage
 	{
 		InitializeComponent( );
 		BindingContext = orderDetailsViewModel;
-
+        orderDetailsViewModel.GetOrderByIdCommand(Dto.Order.Id);
     }
 }

@@ -31,12 +31,7 @@
                                         VerticalOptions="Center"
                                         WidthRequest="40"
                                         Source="order.png">
-                                        
-                                        <!--<Image.Source>
-                                            <UriImageSource Uri="squareplusicon.png"
-                                            CachingEnabled="True"
-                                            CacheValidity="3600"/>
-                                        </Image.Source>-->
+
                                     </Image>
 
 

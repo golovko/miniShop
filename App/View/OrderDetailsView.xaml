@@ -9,15 +9,64 @@
              Title="{Binding Title}">
     <StackLayout>
         <VerticalStackLayout Padding="12" Spacing="6">
-            <Label Text="Detailed Order Info" TextDecorations="Underline"/>
-            <Label Text="Order ID" />
-            <Label Text="Buyer Name" />
-            <Label Text="Ordered Products" />
-            <Label Text="Sum" />
-
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Detailed Order Info" TextDecorations="Underline"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Id,StringFormat='Id: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.BuyerId,StringFormat='Buyer: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.OrderStatus,StringFormat='Order status: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Payed ,StringFormat='Payment status: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.OrderSum,StringFormat='Order sum: £{0}'}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Buyer info"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Name ,StringFormat='Byyer name £{0}'}" />
 
         </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Products in the order" />
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                
+                    <CollectionView
+              EmptyView="No Data"
+                
+                ItemsSource="{Binding Products}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Product">
+                                <Frame CornerRadius="12" Padding="0" Margin="6" >
+                                   
+                                    <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">
+                                        <StackLayout Padding="1">
+                                            <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="80"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="80">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding MainImage}"
+                                            CachingEnabled="True"
+                                            CacheValidity="3600"/>
+                                                </Image.Source>
+                                            </Image>
 
+
+                                        </StackLayout>
+                                        <StackLayout Padding="12, 6, 0, 6"
+                                             Margin="0,0,6,0">
+                                            <Label Text="{Binding Name}" Style="{StaticResource Key=CustomLableStyle}"/>
+                                            <Label Text="{Binding Manufacturer , StringFormat='{0}' }" />
+                                            <Label Text="{Binding Price, StringFormat='£{0}' }" />
+                                        </StackLayout>
+
+                                    </HorizontalStackLayout>
+
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+            </StackLayout>
+        </VerticalStackLayout>
     </StackLayout>
 
 
