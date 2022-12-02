@@ -9,27 +9,31 @@
              Title="{Binding Title}">
     <StackLayout>
         <VerticalStackLayout Padding="12" Spacing="6">
-            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Detailed Order Info" TextDecorations="Underline"/>
-            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Id,StringFormat='Id: {0}'}" />
-            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.BuyerId,StringFormat='Buyer: {0}'}" />
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Order Info" TextDecorations="Underline"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Id,StringFormat='Order Id: {0}'}" />
+                        <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.CreatedDateTime,StringFormat='Created: {0}'}" />
+
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Buyer.Name,StringFormat='Buyer: {0}'}" />
             <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.OrderStatus,StringFormat='Order status: {0}'}" />
             <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Payed ,StringFormat='Payment status: {0}'}" />
             <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.OrderSum,StringFormat='Order sum: £{0}'}" />
         </VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Buyer info"/>
-            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Person.Name ,StringFormat='Byyer name £{0}'}" />
+        <VerticalStackLayout Padding="12" Spacing="6">
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Buyer info" TextDecorations="Underline"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Buyer.Name ,StringFormat='Buyer name: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Buyer.Address ,StringFormat='Address: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding Order.Buyer.Email ,StringFormat='Email: {0}'}" />
 
         </VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Products in the order" />
+        <VerticalStackLayout Padding="12" Spacing="6">
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Products in the order" TextDecorations="Underline" />
             <StackLayout>
                 <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
                 
                     <CollectionView
               EmptyView="No Data"
                 
-                ItemsSource="{Binding Products}">
+                ItemsSource="{Binding Order.Products}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:Product">
                                 <Frame CornerRadius="12" Padding="0" Margin="6" >
@@ -51,8 +55,8 @@
 
 
                                         </StackLayout>
-                                        <StackLayout Padding="12, 6, 0, 6"
-                                             Margin="0,0,6,0">
+                                        <StackLayout 
+                                             Margin="6">
                                             <Label Text="{Binding Name}" Style="{StaticResource Key=CustomLableStyle}"/>
                                             <Label Text="{Binding Manufacturer , StringFormat='{0}' }" />
                                             <Label Text="{Binding Price, StringFormat='£{0}' }" />

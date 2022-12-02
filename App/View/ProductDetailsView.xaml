@@ -21,7 +21,7 @@
                         WidthRequest="260">
                     <Image.Source>
                         <UriImageSource Uri="{Binding Product.MainImage}"
-                                        CachingEnabled="False"/>
+                                        CachingEnabled="True"/>
                     </Image.Source>
                 </Image>
             </StackLayout>

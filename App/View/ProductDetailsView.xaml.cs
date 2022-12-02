@@ -20,4 +20,5 @@ public partial class ProductDetailsView : ContentPage
         await Application.Current.MainPage.DisplayAlert("Added to you order", $"The product successfuly added to your order", "OK");
 
     }
+
 }

@@ -7,26 +7,80 @@
              xmlns:model="clr-namespace:App.Model"
              x:DataType="viewModels:CartViewModel"
              Title="{Binding Title}">
+    <ScrollView>
     <StackLayout>
 
+        <VerticalStackLayout Padding="12" Spacing="6" BindingContext="{Binding CartOrder}">
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Order Info" TextDecorations="Underline"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.CreatedDateTime,StringFormat='Created: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.Buyer.Name,StringFormat='Buyer: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.OrderStatus,StringFormat='Order status: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.Payed ,StringFormat='Payment status: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.OrderSum,StringFormat='Order sum: £{0}'}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="12" Spacing="6">
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Buyer info" TextDecorations="Underline"/>
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.Buyer.Name ,StringFormat='Buyer name: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.Buyer.Address ,StringFormat='Address: {0}'}" />
+            <Label Style="{StaticResource Key=CustomLableStyle}" Text="{Binding CartOrder.Buyer.Email ,StringFormat='Email: {0}'}" />
+
+        </VerticalStackLayout>
+        <VerticalStackLayout Padding="12" Spacing="6">
+            <Label HorizontalTextAlignment="Center" Style="{StaticResource Key=CustomLableStyle}" Text="Products in the order" TextDecorations="Underline" />
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+
+                <CollectionView
+              EmptyView="No Data"
+                
+                ItemsSource="{Binding CartOrder.Products}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Product">
+                            <Frame CornerRadius="12" Padding="0" Margin="6" >
+
+                                <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">
+                                    <StackLayout Padding="1">
+                                        <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="80"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="80">
+                                            <Image.Source>
+                                                <UriImageSource Uri="{Binding MainImage}"
+                                            CachingEnabled="True"
+                                            CacheValidity="3600"/>
+                                            </Image.Source>
+                                        </Image>
+
+
+                                    </StackLayout>
+                                    <StackLayout Padding="12, 6, 0, 6"
+                                             Margin="0,0,6,0">
+                                        <Label Text="{Binding Name}" Style="{StaticResource Key=CustomLableStyle}"/>
+                                        <Label Text="{Binding Manufacturer , StringFormat='{0}' }" />
+                                        <Label Text="{Binding Price, StringFormat='£{0}' }" />
+                                    </StackLayout>
+
+                                </HorizontalStackLayout>
+
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
+        </VerticalStackLayout>
         <VerticalStackLayout
             
             IsVisible="{Binding CartWithOrder}"
             Padding="12"
             Spacing="6">
 
-            <Label Text="Detailed Order Info" TextDecorations="Underline"/>
-            <Label Text="{Binding CartOrder.Id, StringFormat='ID: {0}'}" Style="{StaticResource Key=CustomLableStyle}"/>
-            <Label Text="{Binding CartOrder.OrderStatus, StringFormat='Order Status: {0}' }" />
-            <Label Text="{Binding CartOrder.Payed, StringFormat='Payment status: {0}' }" />
-            <Label Text="{Binding CartOrder.OrderSum, StringFormat='Order sum: £{0}'}" />
             <Button BindingContext="{Binding CartOrder}" Text="Place order" IsEnabled="{Binding CartWithOrder}"
                     Clicked="Save_Button_Clicked"/>
         </VerticalStackLayout>
-
-
-
     </StackLayout>
 
-
+    </ScrollView>
 </ContentPage>

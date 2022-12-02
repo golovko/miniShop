@@ -13,7 +13,6 @@ public partial class LoginView : ContentPage
     {
         InitializeComponent();
         this.authService = authService;
-        //this.loginViewModel = loginViewModel;
         BindingContext = this;
     }
 

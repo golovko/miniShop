@@ -94,6 +94,8 @@
 	  <None Remove="Resources\Images\cart-plus.png" />
 	  <None Remove="Resources\Images\cart_plus.png" />
 	  <None Remove="Resources\Images\order.png" />
+	  <None Remove="Resources\Raw\Settings.xml" />
+	  <None Remove="Resources\Raw\ThemeSettings.json" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Model\" />

@@ -41,22 +41,7 @@ namespace Api.Controllers
 
             return Ok(people);
         }
-        //[HttpGet("{quantity:int}", Name = "GetPeopleRange")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<Person>> GetPeople(int quantity)
-        //{
-        //    var res = PersonData.People;
-        //    if (quantity <= 0)
-        //        return BadRequest("Quantity can't be less or equal 0!");
-
-        //    if (quantity > res.Count)
-        //    {
-        //        return NotFound("Out of range. Max number of people - " + res.Count);
-        //    }
-        //    else return Ok(res.GetRange(0, quantity));
-        //}
+      
 
         [HttpGet("{id:int}",Name ="GetPersonById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -110,6 +95,7 @@ namespace Api.Controllers
                              Image = person.Image,
                              Ocupation = person.Ocupation,
                              Website = person.Website,
+                              Auth = person.Auth
                          };
 
             _dbConnect.People.Add(model);

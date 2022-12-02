@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Api.Logging;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
@@ -47,11 +48,17 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<OrderDto> GetOrder(int id)
+        public ActionResult<Order> GetOrder(int id)
         {
+         
+            var p = _dbConnect.Orders.AsNoTracking().Include(u=>u.Buyer).Include(g=>g.Products).FirstOrDefault(p => p.Id == id);
 
-            var p = _dbConnect.Orders.Include(b => b.Buyer).Include(pr => pr.Products).AsNoTracking().FirstOrDefault(p => p.Id == id);
+            Order order = new()
+            {
+                 Id = p.Id, Buyer = p.Buyer, CreatedDateTime = p.CreatedDateTime, OrderStatus = p.OrderStatus,
+                  OrderSum = p.OrderSum, Payed = p.Payed , Products = p.Products,  UpdatedDateTime = p.UpdatedDateTime 
 
+            };
             if (id <= 0)
             {
                 _logger.Log("Wrong ID", LogType.Error);
@@ -60,37 +67,21 @@ namespace Api.Controllers
             if (p == null)
                 return NotFound($"There no order with requested ID {id}");
 
-            OrderDto model = new OrderDto()
-            {
-                Id = p.Id,
-                BuyerId = p.Buyer.Id,
-                OrderSum = p.OrderSum,
-                OrderStatus = p.OrderStatus,
-                Payed = p.Payed,
-                CreatedDateTime = p.CreatedDateTime,
-                ProductsId = new List<int>()
-            };
-
-            var products = p.Products.ToList();
-            for (int i = 0; i < products.Count; i++)
-            {
-                model.ProductsId.Add(products[i].Id);
-            }
 
             _logger.Log("Success", LogType.Message);
-            return Ok(model);
+            return Ok(order);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<OrderDto> AddOrder([FromBody] OrderDto orderDto)
+        public ActionResult<OrderDto> AddOrder([FromBody] OrderDto order)
         {
-            if (orderDto == null)
-                return BadRequest(orderDto);
+            if (order == null)
+                return BadRequest(order);
 
-            if (orderDto.Id > 0)
+            if (order.Id > 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
 
@@ -98,22 +89,22 @@ namespace Api.Controllers
             {
                 //Id = p.Id,
                 //OrderSum = orderDto.OrderSum,
-                OrderStatus = orderDto.OrderStatus,
-                Payed = orderDto.Payed,
+                OrderStatus = order.OrderStatus,
+                Payed = order.Payed,
                 CreatedDateTime = DateTime.Now,
 
             };
             _dbConnect.Orders.Add(model);
 
             //нахожу покупателя по id
-            var buyer = _dbConnect.People.AsNoTracking().Include(o => o.Orders).FirstOrDefault(u => u.Id == orderDto.BuyerId);
+            var buyer = _dbConnect.People.AsNoTracking().Include(o => o.Orders).FirstOrDefault(u => u.Id == order.BuyerId);
             model.Buyer = buyer;
 
             _dbConnect.SaveChanges();
 
             //нахожу товары из заказа по id
             List<Product> productsInOrder = new List<Product>();
-            foreach (var item in orderDto.ProductsId)
+            foreach (var item in order.ProductsId)
             {
                 Product product = _dbConnect.Products.AsNoTracking().FirstOrDefault(p => p.Id == item);
                 model.OrderSum += product.Price;
@@ -126,22 +117,20 @@ namespace Api.Controllers
 
             //geting result from the db to check that the data was saved properly
             var res = _dbConnect.Orders.AsNoTracking().Include(p => p.Buyer).Include(g => g.Products).OrderBy(p => p.Id).Last();
-            OrderDto modelDto = new OrderDto()
+            OrderDto orderDto = new()
             {
-                Id = res.Id,
-                OrderSum = res.OrderSum,
-                OrderStatus = res.OrderStatus,
-                Payed = res.Payed,
-                CreatedDateTime = res.CreatedDateTime,
-                BuyerId = res.Buyer.Id
+                Id = res.Id, BuyerId = res.Buyer.Id, CreatedDateTime = res.CreatedDateTime
+                , OrderStatus = res.OrderStatus, OrderSum = res.OrderSum, Payed = res.Payed,
+                ProductsId = new List<int>(),
             };
-            var productsId = new List<int>();
+
+            List<int> productsIds= new ();
             foreach (var item in res.Products)
             {
-                productsId.Add(item.Id);
+                productsIds.Add(item.Id);
             }
-            modelDto.ProductsId = productsId;
-            return CreatedAtRoute("GetOrderById", new { id = res.Id }, modelDto);
+            orderDto.ProductsId = productsIds;
+            return CreatedAtRoute("GetOrderById", new { id = res.Id }, orderDto);
 
         }
     }

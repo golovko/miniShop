@@ -17,17 +17,22 @@ public partial class CartView : ContentPage
     async void Save_Button_Clicked(System.Object sender, System.EventArgs e)
     {
         var orderTemp = ((VisualElement)sender).BindingContext as Order;
-        Order order = new Order()
+        OrderDto order = new()
         {
-            Id = orderTemp.Id,
-            BuyerId = orderTemp.BuyerId,
+            BuyerId = orderTemp.Buyer.Id,
             OrderStatus = orderTemp.OrderStatus,
             OrderSum = orderTemp.OrderSum,
             Payed = orderTemp.Payed,
-            ProductsId = orderTemp.ProductsId,
+            ProductsId = new List<int>(),
             CreatedDateTime = orderTemp.CreatedDateTime
         };
+        foreach (var item in orderTemp.Products)
+        {
+            order.ProductsId.Add(item.Id);
+
+        }
         await ordersService.SaveOrder(order);
 
+        order = null;
     }
 }

@@ -36,7 +36,7 @@
 
 
                                 </StackLayout>
-                                <StackLayout Padding="12, 6, 0, 6" >
+                                <StackLayout Padding="12, 6, 6, 6" >
                                     <Label Text="{Binding Id, StringFormat='ID: {0}'}" Style="{StaticResource Key=CustomLableStyle}"/>
                                     <Label Text="{Binding OrderStatus, StringFormat='Order Status: {0}' }" />
                                     <Label Text="{Binding Payed, StringFormat='Payment status: {0}' }" />
@@ -51,7 +51,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        <Grid  ColumnDefinitions="*,*"
+        <!--<Grid  ColumnDefinitions="*,*"
         ColumnSpacing="5"
         RowDefinitions="*,Auto"
         RowSpacing="0">
@@ -76,7 +76,7 @@
                         Opacity="0.5"/>
                 </Button.Shadow>
             </Button>
-        </Grid>
+        </Grid>-->
 
     </StackLayout>
 </ContentPage>

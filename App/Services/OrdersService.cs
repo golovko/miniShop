@@ -12,12 +12,29 @@ namespace App.Services
 
         private HttpClient httpClient;
         private List<Order> ordersList = new List<Order>();
-        private Order Order ;
-        private OrderFull orderFull;
+        private Order Order;
+        private AuthService authService;
 
-        public OrdersService()
+        public OrdersService(AuthService authService)
         {
             this.httpClient = new HttpClient();
+            this.authService = authService;
+        }
+
+        public async Task<List<Order>> GetOrdersByUser(int userId)
+        {
+            GetOrders();
+
+            List<Order> userOrders = new();
+            foreach (var item in ordersList)
+            {
+                if (item.Buyer.Id == userId)
+                {
+                    userOrders.Add(item);
+                }
+            }
+
+            return userOrders;
         }
 
         public async Task<List<Order>> GetOrders()
@@ -31,37 +48,28 @@ namespace App.Services
                 var ordersList = await result.Content.ReadFromJsonAsync<List<Order>>();
                 return ordersList;
             }
-            return ordersList;
-        }
-
-        public async Task<List<Order>> GetOrderById(int id)
-        {
-            
-            var result = await httpClient.GetAsync("https://sgolovko.bsite.net/Api/Orders/" + id);
-            if (result.IsSuccessStatusCode)
+            else
             {
-                var order = await result.Content.ReadFromJsonAsync<List<Order>>();
-                return order;
+                return null;
             }
 
-            return null;
         }
+
 
         public async Task<Order> OrderInCart()
         {
-            return null;
+            return Order;
+
         }
 
-
-
-        public async Task SaveOrder(Order order)
+        public async Task SaveOrder(OrderDto order)
         {
 
             HttpClient httpClientPost;
             httpClientPost = new HttpClient();
-
             Uri uri = new Uri("https://sgolovko.bsite.net/Api/Orders/");
-            var response = await httpClientPost.PostAsJsonAsync<Order>(uri, order);
+
+            var response = await httpClientPost.PostAsJsonAsync<OrderDto>(uri, order);
             var returnValue = response.StatusCode;
 #if DEBUG
             Debug.WriteLine(returnValue);
@@ -72,38 +80,20 @@ namespace App.Services
 
         public void AddProductToOrder(Product product)
         {
+
             if (Order == null)
             {
                 Order = new();
-                Order.ProductsId = new List<int>();
-                Order.ProductsId.Add(product.Id);
+                Order.Buyer = authService.CurrentUser;
             }
-            else
+            if (Order.Products == null)
             {
-                Order.ProductsId.Add(product.Id);
+                Order.Products = new List<Product>();
             }
 
+            Order.Products.Add(product);
 
         }
-
-        public void AddProductToOrder(int productId)
-        {
-            if (Order == null)
-            {
-                Order = new();
-                Order.ProductsId = new List<int>();
-                Order.ProductsId.Add(productId);
-
-            }
-            else
-            {
-                Order.ProductsId.Add(productId);
-
-            }
-
-
-        }
-
     }
 }
 

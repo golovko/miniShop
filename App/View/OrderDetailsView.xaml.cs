@@ -10,6 +10,5 @@ public partial class OrderDetailsView : ContentPage
 	{
 		InitializeComponent( );
 		BindingContext = orderDetailsViewModel;
-        orderDetailsViewModel.GetOrderByIdCommand(Dto.Order.Id);
     }
 }

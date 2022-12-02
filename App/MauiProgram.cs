@@ -7,8 +7,12 @@ namespace App;
 
 public static class MauiProgram
 {
+
+    public const string ApiUrl = "";
+
     public static MauiApp CreateMauiApp()
     {
+
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()

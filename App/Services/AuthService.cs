@@ -21,28 +21,7 @@ namespace App.Services
             this.peopleService = peopleService;
         }
 
-        //        public async Task GetAuthByLoginPass(Auth auth)
-        //        {
-        //            //if (CurrentUser != null)
-        //            //    return CurrentUser.Auth;
-        //            HttpClient httpClientPost;
-        //            httpClientPost = new HttpClient();
-
-        //            Uri uri = new Uri("https://sgolovko.bsite.net/Api/Auth/");
-        //            var response = await httpClientPost.PostAsJsonAsync<Auth>(uri, auth);
-        //            var returnValue = response.StatusCode;
-        //            var res= response.Content;
-        //            if (res != null)
-        //                IsAuthorized = true;
-
-        //#if DEBUG
-        //            Debug.WriteLine(returnValue);
-        //#endif
-        //            await Application.Current.MainPage.DisplayAlert("Auth", $"Checked", "OK");
-
-
-
-        //        }
+       
 
         public async Task<bool> GetAuthByLoginPass(Auth auth)
         {

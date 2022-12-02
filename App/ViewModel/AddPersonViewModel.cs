@@ -14,18 +14,23 @@ namespace App.ViewModel
     public partial class AddPersonViewModel : BaseViewModel
     {
         [ObservableProperty]
-        Person addPerson = new Person();
+        Person addPerson = new();
+
+        [ObservableProperty]
+        Auth auth = new();
 
         PeopleService peopleService;
         public AddPersonViewModel(PeopleService peopleService)
         {
             this.peopleService = peopleService;
             Title = "Add User";
+            
         }
 
         [RelayCommand]
         public async Task Save_Button_Clicked()
         {
+
             PersonDto personDto = new PersonDto()
             {
                 name = addPerson.Name,
@@ -33,8 +38,10 @@ namespace App.ViewModel
                 address = addPerson.Address,
                 website = addPerson.Website,
                 ocupation = addPerson.Ocupation,
+                Auth = new Auth() { Login = auth.Login, Pass = auth.Pass },
                 image = "https://i.pravatar.cc/150?img=" + new Random().Next(20, 40)
             };
+            
 
             //todo move HttpClient to Services folder
             HttpClient httpClientPost;
@@ -42,7 +49,9 @@ namespace App.ViewModel
 
             Uri uri = new Uri("https://sgolovko.bsite.net/Api/People/");
             var response = await httpClientPost.PostAsJsonAsync<PersonDto>(uri, personDto);
+
             var returnValue = response.StatusCode;
+
 #if DEBUG
             Debug.WriteLine(returnValue);
 #endif

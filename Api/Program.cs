@@ -1,6 +1,9 @@
 ﻿using Api.Logging;
 using Api.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,10 @@ builder.Services.AddDbContext<DbConnect>(option =>
 });
 //option.UseMySql(builder.Configuration.GetConnectionString("DefaultMySqlConnection"), Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.31-mysql"));
 
+builder.Services.AddMvc().AddNewtonsoftJson(o =>
+{
+    o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
 
 //builder.Services.AddControllers(option => option.ReturnHttpNotAcceptable = true).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddControllers();
@@ -32,6 +39,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+JsonSerializerOptions options = new()
+{
+    ReferenceHandler = ReferenceHandler.Preserve,
+    WriteIndented = true
+};
 
 app.Run();
 

@@ -15,6 +15,8 @@ namespace Api.Models.Dto
         public string Website { get; set; }
         public string Ocupation { get; set; }
         public string Image { get; set; }
-    }  
+        public Auth? Auth { get; set; }
+
+    }
 }
 

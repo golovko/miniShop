@@ -11,4 +11,6 @@ public partial class AddPersonPage : ContentPage
         BindingContext = addPersonViewModel;
     }
 
+
+
 }
