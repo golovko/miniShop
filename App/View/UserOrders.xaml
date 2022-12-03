@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app="clr-namespace:App"
-             x:Class="App.View.OrdersView"
+             x:Class="App.View.UserOrders"
              xmlns:viewModels="clr-namespace:App.ViewModel"
              xmlns:model="clr-namespace:App.Model"
              x:DataType="viewModels:OrdersViewModel"
@@ -19,7 +19,7 @@
                         <Frame CornerRadius="12" Padding="0" Margin="6" >
                             <Frame.GestureRecognizers>
 
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                <TapGestureRecognizer Tapped="DetailedOrder_Tapped"/>
 
                             </Frame.GestureRecognizers>
                             <HorizontalStackLayout BackgroundColor="{StaticResource BackGround}">

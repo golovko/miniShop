@@ -23,8 +23,6 @@ public partial class PeopleListView : ContentPage
 
         await Shell.Current.GoToAsync(nameof(PersonDetailsView), true, new Dictionary<string, object> {{ "Person", person } });
 
-       //Application.Current.MainPage.DisplayAlert("User!", $"{person.Name}\n{person.Email}" , "OK");
-
     }
 
     public async void AddPerson_Button_Clicked(System.Object sender, System.EventArgs e)

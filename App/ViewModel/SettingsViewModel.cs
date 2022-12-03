@@ -5,7 +5,6 @@ using App.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Android.Graphics;
 
 namespace App.ViewModel
 {
@@ -33,7 +32,7 @@ namespace App.ViewModel
 
         public async Task<AppTheme> SaveTheme()
         {
-            UserSettings userSettings = new() { AppthemeSetting = apptheme };
+            UserSettings userSettings = new() { AppthemeSetting = apptheme, ThemePicker = this.ThemePicker };
 
             using (StreamWriter file = File.CreateText(FileSystem.Current.AppDataDirectory + "/ThemeSettings.json"))
             {

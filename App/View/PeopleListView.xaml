@@ -13,7 +13,7 @@
         <RefreshView Command="{Binding GetPeopleCommand}" IsRefreshing="{Binding IsRefreshing}">
             <CollectionView
               EmptyView="No Data"
-                HeightRequest="700"
+                HeightRequest="720"
                 ItemsSource="{Binding People}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Person">

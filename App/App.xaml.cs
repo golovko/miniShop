@@ -1,7 +1,6 @@
 ﻿using App.ViewModel;
 using App.Model;
 using Newtonsoft.Json;
-using Android.Graphics;
 
 namespace App;
 
@@ -19,13 +18,22 @@ public partial class App : Application
 
 	private async void GetTheme()
 	{
-        using (StreamReader file = File.OpenText(FileSystem.Current.AppDataDirectory + "/ThemeSettings.json"))
+        try
         {
-            JsonSerializer serializer = new JsonSerializer();
-            var res = (UserSettings)serializer.Deserialize(file, typeof(UserSettings));
-            DefaultTheme = res.AppthemeSetting;
+            using (StreamReader file = File.OpenText(FileSystem.Current.AppDataDirectory + "/ThemeSettings.json"))
+            {
 
+                JsonSerializer serializer = new JsonSerializer();
+                var res = (UserSettings)serializer.Deserialize(file, typeof(UserSettings));
+                DefaultTheme = res.AppthemeSetting;
+
+            }
         }
+        catch (Exception ex)
+        {
+            return;
+        }
+        
 
     }
 }

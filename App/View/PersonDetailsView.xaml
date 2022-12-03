@@ -42,12 +42,12 @@
             </VerticalStackLayout>
 
             <Button
-                Text="Show on map"
+                Text="Show orders"
                 Padding="20"
                 Margin="20"
                 VerticalOptions="End"
-                Command="{Binding OpenMapCommand}"
-                IsEnabled="{Binding IsNotBusy}"/>
+                Clicked="PersonOrders_Button_Clicked"
+                 />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

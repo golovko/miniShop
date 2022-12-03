@@ -81,7 +81,7 @@
                     Grid.Column="0"/>
 
                 <Switch Grid.Row="1"
-                    Grid.Column="1" x:Name="ToggleSwith" Toggled="OnToggled" IsToggled="{Binding ThemePicker}" />
+                    Grid.Column="1" ThumbColor="Green" x:Name="ToggleSwith" Toggled="OnToggled" IsToggled="{Binding ThemePicker}" />
             </Grid>
             <Label x:Name="Toggler" Text="Dark Mode Off" />
         </VerticalStackLayout>

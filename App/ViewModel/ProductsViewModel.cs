@@ -22,6 +22,7 @@ namespace App.ViewModel
             Title = "Products";
             this.productsService = productsService;
             GetProductsAsync();
+            
 
         }
 

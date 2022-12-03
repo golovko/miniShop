@@ -14,7 +14,7 @@ namespace App.Services
         private List<Order> ordersList = new List<Order>();
         private Order Order;
         private AuthService authService;
-
+        public Person person;
         public OrdersService(AuthService authService)
         {
             this.httpClient = new HttpClient();
@@ -33,7 +33,6 @@ namespace App.Services
                     userOrders.Add(item);
                 }
             }
-
             return userOrders;
         }
 
@@ -52,14 +51,12 @@ namespace App.Services
             {
                 return null;
             }
-
         }
 
 
         public async Task<Order> OrderInCart()
         {
             return Order;
-
         }
 
         public async Task SaveOrder(OrderDto order)

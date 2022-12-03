@@ -37,6 +37,8 @@ public static class MauiProgram
         builder.Services.AddTransient<OrdersViewModel>();
         builder.Services.AddTransient<OrderDetailsView>();
         builder.Services.AddTransient<OrderDetailsViewModel>();
+        builder.Services.AddTransient<UserOrders>();
+
 
         builder.Services.AddTransient<PeopleListView>();
         builder.Services.AddTransient<PeopleListViewModel>();
